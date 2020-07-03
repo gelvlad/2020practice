@@ -8,14 +8,14 @@ using System.Data.Common;
 
 namespace DBClient.DataAccess
 {
-    class TableDao
+    public class TableDao
     {
         public string TableName { get; }
         public HashSet<string> Columns { get; }
         private readonly DbConnection connection;
         private readonly string primaryKeyName;
     
-        public TableDao(DbConnection connection, string tableName, string primaryKeyName, IEnumerable<string> columnNames)
+        public TableDao(DbConnection connection, string tableName)
         {
             TableName = tableName;
             this.connection = connection;
@@ -69,7 +69,7 @@ namespace DBClient.DataAccess
                     Console.WriteLine("3");
                 }
             }
-            return new TableDao(connection, tableName, primaryKeyColumn.name);
+            return new TableDao(connection, tableName);//, primaryKeyColumn.name);
         }
 
         public void DropTable()
@@ -81,61 +81,61 @@ namespace DBClient.DataAccess
             }
         }
 
-        public void InsertRow(IEnumerable<string> columnNames, IEnumerable<string> values)
-        {
-            // insert row -tsometable col1=asd col2=dsa col3=3
+        //public void InsertRow(IEnumerable<string> columnNames, IEnumerable<string> values)
+        //{
+        //    // insert row -tsometable col1=asd col2=dsa col3=3
 
-            foreach (var name in columnNames)
-            {
-                if (!Columns.Contains(name))
-                {
-                    //no column pepehands
-                }
-            }
+        //    foreach (var name in columnNames)
+        //    {
+        //        if (!Columns.Contains(name))
+        //        {
+        //            //no column pepehands
+        //        }
+        //    }
 
-            //escape E V E R Y T H I N G
-            var sb = new StringBuilder();
-            foreach (var value in values)
-            {
+        //    //escape E V E R Y T H I N G
+        //    var sb = new StringBuilder();
+        //    foreach (var value in values)
+        //    {
 
-            }
+        //    }
 
-            using (DbCommand command = connection.CreateCommand())
-            {
-                command.CommandText =
-                    $"INSERT INTO {TableName} ({columnNames}) " +
-                    $"VALUES ({values})";
-            }
-        }
+        //    using (DbCommand command = connection.CreateCommand())
+        //    {
+        //        command.CommandText =
+        //            $"INSERT INTO {TableName} ({columnNames}) " +
+        //            $"VALUES ({values})";
+        //    }
+        //}
 
-        public void UpdateRow()
-        {
-            using (DbCommand command = connection.CreateCommand())
-            {
-                command.CommandText =
-                    $"INSERT INTO {TableName} ({columnNames}) " +
-                    $"VALUES ({values})";
-            }
-        }
+        //public void UpdateRow()
+        //{
+        //    using (DbCommand command = connection.CreateCommand())
+        //    {
+        //        command.CommandText =
+        //            $"INSERT INTO {TableName} ({columnNames}) " +
+        //            $"VALUES ({values})";
+        //    }
+        //}
 
-        public void DeleteRow()
-        {
-            using (DbCommand command = connection.CreateCommand())
-            {
-                command.CommandText =
-                    $"INSERT INTO {TableName} ({columnNames}) " +
-                    $"VALUES ({values})";
-            }
-        }
+        //public void DeleteRow()
+        //{
+        //    using (DbCommand command = connection.CreateCommand())
+        //    {
+        //        command.CommandText =
+        //            $"INSERT INTO {TableName} ({columnNames}) " +
+        //            $"VALUES ({values})";
+        //    }
+        //}
 
-        public void SelectRows()
-        {
-            using (DbCommand command = connection.CreateCommand())
-            {
-                command.CommandText =
-                    $"INSERT INTO {TableName} ({columnNames}) " +
-                    $"VALUES ({values})";
-            }
-        }
+        //public void SelectRows()
+        //{
+        //    using (DbCommand command = connection.CreateCommand())
+        //    {
+        //        command.CommandText =
+        //            $"INSERT INTO {TableName} ({columnNames}) " +
+        //            $"VALUES ({values})";
+        //    }
+        //}
     }
 }

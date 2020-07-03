@@ -19,17 +19,12 @@ namespace DBClient
 
         static void Main(string[] args)
         {
-            NpgsqlConnection connection = new NpgsqlConnection(
-                "Host=rogue.db.elephantsql.com;" +
-                "Username=dswlpdrj;" +
-                "Password=mPqliIo75EzrBFoSAhZwYZV47IgOxYCE;" +
-                "Database=dswlpdrj");
-
-            connection.Open();
+            var a = new DataAccess.DaoManager(
+                host: "rogue.db.elephantsql.com",
+                username: "dswlpdrj",
+                password: "mPqliIo75EzrBFoSAhZwYZV47IgOxYCE",
+                databaseName: "dswlpdrj");
             string inp = "create table -n\"Table\" -pk\"ID\" \"SERIAL\" -c\"text\" \"varchar(255)\", \"name\" \"varchar(12)\"";
-
-
-            DataAccess.TableDao.CreateTable(connection, "\\\"newtable", new (string, string)[] { ("text", "varchar(255)"), ("name", "varchar(12)") });
 
             Console.ReadLine();
         }

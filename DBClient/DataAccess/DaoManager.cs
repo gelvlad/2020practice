@@ -4,17 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
+using Npgsql;
 
 namespace DBClient.DataAccess
 {
-    public class DaoManager
+    public class DaoManager : IDisposable
     {
         public DbConnection Connection { get; }
-        private readonly Dictionary<string, TableDao> daos;
+        private readonly Dictionary<string, TableDao> daos = new Dictionary<string, TableDao>();
 
-        public DaoManager()
+        public DaoManager(string host, string username, string password, string databaseName)
         {
+            NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder
+            {
+                Host = host,
+                Username = username,
+                Password = password,
+                Database = databaseName
+            };
 
+            NpgsqlConnection connection = new NpgsqlConnection(sb.ToString());
+            Connection = connection;
+            Connection.Open();
         }
 
         public TableDao GetDao(string tableName)
@@ -22,7 +33,20 @@ namespace DBClient.DataAccess
             if (daos.ContainsKey(tableName) && daos[tableName] != null)
                 return daos[tableName];
 
+            TableDao dao = new TableDao(Connection, tableName);
+            daos.Add(tableName, dao);
+            return daos[tableName];
+        }
 
+        public void NewTable(string tableName, IEnumerable<(string name, string type)> columns, (string name, string type) primaryKeyColumn)
+        {
+            TableDao dao = TableDao.CreateTable(Connection, tableName, columns, primaryKeyColumn);
+            daos.Add(tableName, dao);
+        }
+
+        public void Dispose()
+        {
+            Connection.Close();
         }
     }
 }
