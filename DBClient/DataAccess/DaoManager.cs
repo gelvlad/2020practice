@@ -39,9 +39,9 @@ namespace DBClient.DataAccess
             return daos[tableName];
         }
 
-        public void NewTable(string tableName, IOrderedDictionary columns, IOrderedDictionary primaryKeyColumns)
+        public void NewTable(string tableName, IOrderedDictionary columns, KeyValuePair<string, string> primaryKeyColumn)
         {
-            TableDao dao = TableDao.CreateTable(Connection, tableName, columns, primaryKeyColumns);
+            TableDao dao = TableDao.CreateTable(Connection, tableName, columns, primaryKeyColumn);
             daos.Add(tableName, dao);
         }
 
