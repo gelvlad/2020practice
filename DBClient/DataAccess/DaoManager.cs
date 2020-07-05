@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace DBClient.DataAccess
 {
     public class DaoManager : IDisposable
     {
-        public DbConnection Connection { get; }
+        public NpgsqlConnection Connection { get; }
         private readonly Dictionary<string, TableDao> daos = new Dictionary<string, TableDao>();
 
         public DaoManager(string host, string username, string password, string databaseName)
@@ -38,9 +39,9 @@ namespace DBClient.DataAccess
             return daos[tableName];
         }
 
-        public void NewTable(string tableName, IEnumerable<(string name, string type)> columns, (string name, string type) primaryKeyColumn)
+        public void NewTable(string tableName, IOrderedDictionary columns, IOrderedDictionary primaryKeyColumns)
         {
-            TableDao dao = TableDao.CreateTable(Connection, tableName, columns, primaryKeyColumn);
+            TableDao dao = TableDao.CreateTable(Connection, tableName, columns, primaryKeyColumns);
             daos.Add(tableName, dao);
         }
 
