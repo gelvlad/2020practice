@@ -74,8 +74,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\Client.cs" />
     <Compile Include="DataAccess\DaoManager.cs" />
     <Compile Include="DataAccess\TableDao.cs" />
+    <Compile Include="Interface\StringExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -21,7 +21,8 @@ namespace DBClient.DataAccess
                 Host = host,
                 Username = username,
                 Password = password,
-                Database = databaseName
+                Database = databaseName,
+                Pooling = true
             };
 
             NpgsqlConnection connection = new NpgsqlConnection(sb.ToString());
@@ -37,6 +38,12 @@ namespace DBClient.DataAccess
             TableDao dao = new TableDao(Connection, tableName);
             daos.Add(tableName, dao);
             return daos[tableName];
+        }
+
+        public void NewTable(string tableName, IOrderedDictionary columns)
+        {
+            TableDao dao = TableDao.CreateTable(Connection, tableName, columns);
+            daos.Add(tableName, dao);
         }
 
         public void NewTable(string tableName, IOrderedDictionary columns, KeyValuePair<string, string> primaryKeyColumn)

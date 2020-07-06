@@ -75,29 +75,8 @@ namespace DBClient.DataAccess
                 command.CommandText = sb.ToString();
                 command.ExecuteNonQuery();
             }
-            return new TableDao(connection, tableName);//, columns.Keys, customPrimaryKey.Key);
+            return new TableDao(connection, tableName);
         }
-        //catch (Npgsql.PostgresException e)
-        //{
-        //    switch (e.SqlState)
-        //    {
-        //        case "42P07":
-        //            Console.WriteLine("Ошибка: такая таблица уже существует");
-        //            break;
-        //        default:
-        //            Console.WriteLine("Ошибка: неизвестная ошибка в SQL");
-        //            break;
-        //    }
-        //    throw;
-        //}
-        //catch (Npgsql.NpgsqlException e)
-        //{
-        //    Console.WriteLine("2");
-        //}
-        //catch (DbException e)
-        //{
-        //    Console.WriteLine("3");
-        //}
 
         public void DropTable()
         {
@@ -108,14 +87,14 @@ namespace DBClient.DataAccess
             }
         }
 
-        public void InsertRow(Dictionary<string, object> values)
+        public void InsertRow(Dictionary<string, string> values)
         {
             StringBuilder namesSB = new StringBuilder();
             StringBuilder valuesSB = new StringBuilder();
-            foreach (KeyValuePair<string, object> value in values)
+            foreach (KeyValuePair<string, string> value in values)
             {
                 namesSB.AppendFormat("{0}, ", value.Key);
-                valuesSB.AppendFormat("{0}, ", value);
+                valuesSB.AppendFormat("{0}, ", value.Value);
             }
             namesSB.Length -= 2;
             valuesSB.Length -= 2;
