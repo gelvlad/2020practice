@@ -75,14 +75,17 @@ namespace DBClient.Interface
             catch (IOException)
             {
                 Console.WriteLine("Сервер не отвечает");
+                return;
             }
             catch (Npgsql.PostgresException e)
             {
                 Console.WriteLine("Ошибка: " + e.MessageText);
+                return;
             }
             catch (Npgsql.NpgsqlException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             Console.WriteLine("Подключение к СУБД установлено.");
         }
@@ -141,15 +144,17 @@ namespace DBClient.Interface
                         Console.WriteLine("Ошибка: " + e.MessageText);
                         break;
                 }
-                throw;
+                return;
             }
             catch (Npgsql.NpgsqlException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             catch (IOException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             Console.WriteLine($"Создана таблица {args[1]}.");
         }
@@ -170,14 +175,17 @@ namespace DBClient.Interface
             catch (Npgsql.PostgresException e)
             {
                 Console.WriteLine("Ошибка: " + e.MessageText);
+                return;
             }
             catch (Npgsql.NpgsqlException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             catch (IOException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             Console.WriteLine($"Удалена таблица {args[1]}.");
         }
@@ -209,14 +217,17 @@ namespace DBClient.Interface
             catch (Npgsql.PostgresException e)
             {
                 Console.WriteLine("Ошибка: " + e.MessageText);
+                return;
             }
             catch (Npgsql.NpgsqlException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             catch (IOException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             Console.WriteLine($"В таблицу {args[1]} добавлена запись.");
         }
@@ -254,14 +265,17 @@ namespace DBClient.Interface
             catch (Npgsql.PostgresException e)
             {
                 Console.WriteLine("Ошибка: " + e.MessageText);
+                return;
             }
             catch (Npgsql.NpgsqlException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             catch (IOException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             Console.WriteLine($"В таблице {args[1]} обновлена запись с ключом '{args[2]}'.");
         }
@@ -287,14 +301,17 @@ namespace DBClient.Interface
             catch (Npgsql.PostgresException e)
             {
                 Console.WriteLine("Ошибка: " + e.MessageText);
+                return;
             }
             catch (Npgsql.NpgsqlException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             catch (IOException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             Console.WriteLine($"Из таблицы {args[1]} удалена запись с ключом '{args[2]}'.");
         }
@@ -323,14 +340,17 @@ namespace DBClient.Interface
             catch (Npgsql.PostgresException e)
             {
                 Console.WriteLine("Ошибка: " + e.MessageText);
+                return;
             }
             catch (Npgsql.NpgsqlException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
             catch (IOException e)
             {
                 Console.WriteLine("Ошибка: " + e.Message);
+                return;
             }
 
             foreach (object[] row in result)
@@ -350,7 +370,7 @@ namespace DBClient.Interface
                 "insertrow <tablename> <columnname>=<value> <columnname>=<value> ...\n" +
                 "updaterow <tablename> -pk<keyvalue> <columnname>=<value> <columnname>=<value> ...\n" +
                 "deleterow <tablename> -pk<keyvalue>\n" +
-                "selectrows <tablename> <columnname>=<value>");
+                "selectrows <tablename> <columnname>=<value>\n");
         }
     }
 }

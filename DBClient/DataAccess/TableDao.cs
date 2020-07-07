@@ -12,40 +12,20 @@ using System.Threading.Tasks;
 
 namespace DBClient.DataAccess
 {
-    public class TableDao
+    public abstract class TableDao
     {
         public string TableName { get; }
-        private readonly DbConnection connection;
-        private readonly string primaryKeyName;
+        protected readonly DbConnection connection;
+        protected readonly string primaryKeyName;
 
         public TableDao(DbConnection connection, string tableName) 
         {
             TableName = tableName;
             this.connection = connection;
-
-            using (DbCommand command = connection.CreateCommand())
-            {
-                command.CommandText =
-                    $"SELECT a.attname " +
-                    $"FROM pg_index i " +
-                    $"JOIN pg_attribute a ON a.attrelid = i.indrelid " +
-                    $"AND a.attnum = ANY(i.indkey) " +
-                    $"WHERE i.indrelid = '{TableName}'::regclass " +
-                    $"AND i.indisprimary;";
-                command.Prepare();
-
-                object result = command.ExecuteScalar();
-                try
-                {
-                    primaryKeyName = (string)result;
-                }
-                catch (InvalidCastException e)
-                {
-                    throw new InvalidCastException($"Got \"{result.GetType()}\" " +
-                        $"instead of \"{typeof(string)}\" when reading a name of a primary key.", e);
-                }
-            }
+            primaryKeyName = QueryIdColumn();
         }
+
+        public abstract string QueryIdColumn();
 
         public static TableDao CreateTable(DbConnection connection, string tableName, IOrderedDictionary columns)
         {
@@ -87,7 +67,7 @@ namespace DBClient.DataAccess
             }
         }
 
-        public void InsertRow(Dictionary<string, string> values)
+        public void InsertRow(IDictionary<string, string> values)
         {
             StringBuilder namesSB = new StringBuilder();
             StringBuilder valuesSB = new StringBuilder();

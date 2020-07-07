@@ -35,7 +35,7 @@ namespace DBClient.DataAccess
             if (daos.ContainsKey(tableName) && daos[tableName] != null)
                 return daos[tableName];
 
-            TableDao dao = new TableDao(Connection, tableName);
+            TableDao dao = new PostgresTableDao(Connection, tableName);
             daos.Add(tableName, dao);
             return daos[tableName];
         }
