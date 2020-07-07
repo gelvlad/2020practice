@@ -55,7 +55,7 @@ namespace DBClient.DataAccess
                 command.CommandText = sb.ToString();
                 command.ExecuteNonQuery();
             }
-            return new TableDao(connection, tableName);
+            return new PostgresTableDao(connection, tableName);
         }
 
         public void DropTable()
